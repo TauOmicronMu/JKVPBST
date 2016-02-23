@@ -1,6 +1,6 @@
 import java.util.Optional;
 
-public class Fork implements Bst {
+public class Fork<K extends Comparable<K>,V> implements Bst {
 
 	private final Entry root;
 	private final Bst left, right;

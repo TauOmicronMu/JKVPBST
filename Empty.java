@@ -1,6 +1,6 @@
 import java.util.Optional;
 
-public class Empty implements Bst {
+public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	
 	/**
 	 * Nothing to do in the constructor.
