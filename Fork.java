@@ -1,130 +1,146 @@
+import java.util.Optional;
 
+public class Fork implements Bst {
 
-public class Fork<E extends Comparable<E>> implements Bst<E> {
-    
-  private final E root;
-  private final Bst<E> left, right;
+	private final Entry root;
+	private final Bst left, right;
+	
+	/**
+	 * Creates a new instance of the Fork class,
+	 * ensuring that neither branch is null and
+	 * the new Fork wouldn't violate the BST
+	 * property.
+	 * @param root The root value for the BST.
+	 * @param left The left branch for the BST.
+	 * @param right The right branch for the BST.
+	 */
+	public Fork(Entry root, Bst left, Bst right) {
+		
+		assert(left != null && right != null); //Neither of the branches should be null.
+		
+		assert(left.smaller(root.getKey()) && right.bigger(root.getKey())); //Don't violate the BST property.
+		
+		this.root = root;
+		this.left = left;
+		this.right = right;
+	}
+	
+	/**
+	 * Always return false, because a Fork
+	 * will always have at least a root
+	 * node.
+	 */
+	@Override
+	public boolean isEmpty() {
+		return false;
+	}
 
-  public Fork(E root,  Bst<E> left, Bst<E> right) {
-    assert(left != null);       // Refuse to work with null pointers.
-    assert(right != null);
+	@Override
+	public boolean smaller(Comparable k) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    assert(left.smaller(root)); // Refuse to violate the bst property.
-    assert(right.bigger(root)); // So all our objects will really be bst's.
+	@Override
+	public boolean bigger(Comparable k) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    this.root = root;           // The usual stuff now.
-    this.left = left;
-    this.right = right;
-  }
-    
-  public boolean isEmpty() { 
-   return false; 
-  }
+	@Override
+	public boolean has(Comparable k) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-  public boolean smaller(E e) { // Checks whether all nodes smaller than e.
-    // return root.compareTo(e) < 0 && right.smaller(e); 
-    return (largest().compareTo(e) < 0);
-  }
+	@Override
+	public Optional find(Comparable k) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public boolean bigger(E e) {
-    return root.compareTo(e) > 0 && left.bigger(e);
-  }
+	@Override
+	public Bst put(Comparable k, Object v) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public boolean has(E e) {  // Checks whether e occurs in "this".
-      // if (e == root) // Wrong!
-    if (e.compareTo(root) == 0)
-       return true;
-    else
-      if (e.compareTo(root) < 0)  // Only one sub-tree needs to be searched.
-	return left.has(e);
-      else
-	return right.has(e);
-  }
+	@Override
+	public Optional delete(Comparable k) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public Bst<E> find(E e) {
-      if (e.compareTo(root) == 0)
-       return this;        
-    else
-      if (e.compareTo(root) < 0)
-	return left.find(e);
-      else
-	return right.find(e);
-  }
+	@Override
+	public Optional smallest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public Bst<E> insert(E e)  { // Returns a copy of this with e inserted.  
-    if (e.compareTo(root) == 0)// Bst<E>'s can't have duplicates.
-      return this;             // Return unchanged.
-    else                       // (Another possibility is to trigger an exception or use the Maybe type.)
-      if (e.compareTo(root) < 0)
-	return new Fork<E>(root, left.insert(e), right); 
-      else
-	return new Fork<E>(root, left, right.insert(e));
-  }
+	@Override
+	public Optional deleteSmallest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public E smallest() { 
-    if (left.isEmpty())
-      return root;
-    else
-      return left.smallest();
-	  
-  }
+	@Override
+	public Optional largest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public Bst<E> deleteSmallest() { 
-    if (left.isEmpty()) 
-      return right;
-    else
-      return new Fork<E> (root, left.deleteSmallest(), right);
-  }
+	@Override
+	public Optional deleteLargest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public E largest() { 
-    if (right.isEmpty())
-      return root;
-    else
-      return right.largest();
-  }
+	@Override
+	public String fancyToString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public Bst<E> deleteLargest() { 
-    if (right.isEmpty()) 
-      return left;
-    else
-      return new Fork<E>(root, left, right.deleteLargest());
-  }
+	@Override
+	public String fancyToString(int d) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public Bst<E> delete(E e)  {  // Returns a copy of self with e deleted.
-    if (e.compareTo(root) == 0)
-      if (left.isEmpty())
-	return right;
-      else
-	if (right.isEmpty())
-	  return left;
-	else // Both non-empty.
-	  return new Fork<E>(left.largest(), left.deleteLargest(), right);
-    else // We have to delete from one of the subtrees.               
-      if (e.compareTo(root) < 0)
-	return new Fork<E>(root, left.delete(e), right); 
-      else
-	return new Fork<E>(root, left, right.delete(e));
-  }
+	@Override
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-  public String toString() {
-    return "Fork("  +  root + "," + left.toString()  +  ","  +  right.toString()  +  ")";
-  }
+	@Override
+	public int height() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-  public String fancyToString() {
-    return "\n\n\n" + fancyToString(0) + "\n\n\n";
-  }
-    
-  public String fancyToString(int depth) { 
-    int step = 4;  // depth step
-    String l = left.fancyToString(depth+step);
-    String r = right.fancyToString(depth+step);
-    return r + spaces(depth) + root + "\n" + l;
-    }
-    
-  private String spaces(int n) { // Helper method for the above:
-    String s = "";
-    for (int i = 0; i < n; i++)
-	s = s + " ";
-    return s;
-  }
+	@Override
+	public void printInOrder() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveInOrder(Entry[] a) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int saveInOrder(Entry[] a, int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Bst balanced() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

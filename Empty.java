@@ -1,73 +1,192 @@
-/*
- * Empty.java
- *
- * Created on 3 Feb 2014.
- * 
- */
+import java.util.Optional;
 
-/**
- * Bst class for empty trees of integers.
- * @author  Martin Escardo
- */
-
-public class Empty<E extends Comparable<E>> implements Bst<E> {
+public class Empty implements Bst {
+	
+	/**
+	 * Nothing to do in the constructor.
+	 */
+	public Empty(){}
     
-  public Empty() { // Nothing to do in the constructor!
-  } 
+	/**
+	 * Always returns true because an Empty
+	 * BST is always Empty.
+	 */
+	@Override
+	public boolean isEmpty() {
+		return true;
+	}
 
-  public boolean isEmpty() { 
-    return true; 
-  }
+	/**
+	 * Always returns true because there are
+	 * no nodes in an Empty BST.
+	 */
+	@Override
+	public boolean smaller(Comparable k) {
+		return true;
+	}
 
-  public boolean smaller(E e) { 
-    return true; 
-  }
+	/**
+	 * Always returns true because there are
+	 * no nodes in an Empty BST.
+	 */
+	@Override
+	public boolean bigger(Comparable k) {
+		return true;
+	}
 
-  public boolean bigger(E e) { 
-    return true; 
-  }
+	/**
+	 * Always returns false because an Empty
+	 * BST will never contain the key, k.
+	 */
+	@Override
+	public boolean has(Comparable k) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-  public boolean has(E e) { 
-    return false; 
-  } 
+	/**
+	 * Always return an empty instance of
+	 * the Optional class, because there
+	 * are never nodes in an Empty BST.
+	 */
+	@Override
+	public Optional find(Comparable k) {
+		return Optional.empty();
+	}
 
-  public Bst<E> find(E e) { 
-    return null;  // We want to improve this. Don't want null.
-  }
- 
-  public Bst<E> insert(E e) { 
-    return new Fork<E>(e , new Empty<E>(), new Empty<E>()); 
-  }
+	/**
+	 * Return a Fork with just a root, which
+	 * is an Entry consisting of the key:value 
+	 * pair: k:v.
+	 */
+	@Override
+	public Bst put(Comparable k, Object v) {
+		return new Fork(new Entry<>(k,v), new Empty(), new Empty());
+	}
 
-  public Bst<E> delete(E e)  { 
-    return this;  // Nothing to delete. Return unchanged.
-  }
+	/** 
+	 * Always return an empty instance of
+	 * the Optional class, because there are
+	 * never nodes in an Empty BST.
+	 */
+	@Override
+	public Optional delete(Comparable k) {
+		return Optional.empty();
+	}
 
-  public E smallest() { // Bad. Need to improve. 
-    throw new RuntimeException("Attempted to find smallest node of empty tree");
-  }
+	/** 
+	 * Always return an empty instance of
+	 * the Optional class, because there are
+	 * never nodes in an Empty BST.
+	 */
+	@Override
+	public Optional smallest() {
+		return Optional.empty();
+	}
 
-  public Bst<E> deleteSmallest() { 
-    throw new RuntimeException("Attempted to delete smallest node of empty tree");
-  }
+	/** 
+	 * Always return an empty instance of
+	 * the Optional class, because there are
+	 * never nodes in an Empty BST.
+	 */
+	@Override
+	public Optional deleteSmallest() {
+		return Optional.empty();
+	}
 
-  public E largest() { 
-    throw new RuntimeException("Attempted to find largest node of empty tree");
-  }
+	/** 
+	 * Always return an empty instance of
+	 * the Optional class, because there are
+	 * never nodes in an Empty BST.
+	 */
+	@Override
+	public Optional largest() {
+		return Optional.empty();
+	}
 
-  public Bst<E> deleteLargest() { 
-    throw new RuntimeException("Attempted to delete largest node of empty tree");
-  }
+	/**
+	 * There is nothing to delete, so always
+	 * return an empty instance of the
+	 * Optional class.
+	 */
+	@Override
+	public Optional deleteLargest() {
+		return Optional.empty();
+	}
+	
+	/**
+	 * Just prints "Empty".
+	 */
+	public String toString() {
+		return "Empty";
+	}
 
-  public String toString() { 
-    return "Empty"; 
-  }
+	/**
+	 * Prints 'nothing'.
+	 */
+	@Override
+	public String fancyToString() {
+		return "";
+	}
 
-  public String fancyToString() { 
-    return ""; 
-  }
+	/**
+	 * Prints 'nothing'.
+	 */
+	public String fancyToString(int d) {
+		return "";
+	}
 
-  public String fancyToString(int d) { 
-    return fancyToString(); 
-  }
+	/**
+	 * Always returns 0, because the Empty
+	 * BST contains 0 nodes.
+	 */
+	@Override
+	public int size() {
+		return 0;
+	}
+
+	/**
+	 * Always returns -1, because an Empty
+	 * BST has a height of -1.
+	 */
+	@Override
+	public int height() {
+		return -1;
+	}
+
+	/**
+	 * Just print out "Empty".
+	 */
+	@Override
+	public void printInOrder() {
+		// TODO Auto-generated method stub
+		System.out.println("Empty");
+	}
+	
+	/**
+	 * TODO : Implement this.
+	 */
+	@Override
+	public void saveInOrder(Entry[] a) {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * TODO : Implement this.
+	 */
+	@Override
+	public int saveInOrder(Entry[] a, int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/**
+	 * Always returns an Empty BST because
+	 * the Empty BST is always balanced.
+	 */
+	@Override
+	public Bst balanced() {
+		return new Empty();
+	}
+
 }
