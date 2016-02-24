@@ -191,8 +191,40 @@ public class Fork<K extends Comparable<K>,V> implements Bst {
 	 */
 	@Override
 	public boolean has(Comparable k) {
-		// TODO Auto-generated method stub
-		return false;
+		if(this.right instanceof Empty) {
+			if(this.left instanceof Empty) {
+				/* CASE : BOTH BRANCHES ARE EMPTY.
+				 * 
+				 * If both branches are empty, return whether or not the root is 
+				 * equal to k.
+				 */
+				return (k.compareTo(this.getRootKey()) == 0);
+			}
+			/* CASE : THE RIGHT BRANCH IS EMPTY BUT THE LEFT BRANCH IS NOT.
+			 * 
+			 * If the right branch is Empty but the left branch is not,
+			 * return whether or not the root is equal to k, and the 
+			 * result of has() on the left branch.
+			 */
+			return (k.compareTo(this.getRootKey()) == 0) && this.left.has(k);
+		}
+		else if(this.left instanceof Empty) { 
+		    /* CASE : THE LEFT BRANCH IS EMPTY BUT THE RIGHT BRANCH IS NOT.
+		     * 
+		     * If the left branch is Empty but the right branch is not,
+		     * return whether or not the root is equal to k, and the
+		     * result of has() on the right branch.
+		     */
+			return (k.compareTo(this.getRootKey()) == 0) && this.right.has(k);
+		}
+	    else {
+		    /* CASE : NEITHER BRANCH IS EMPTY
+		     * 
+		     *  If neither branch is Empty, return whether or not the root is
+		     *  equal to k, and the result of has() on both branches.
+		     */
+		    return (k.compareTo(this.getRootKey()) == 0) && this.left.has(k) && this.right.has(k);
+	    }
 	}
 
 	/**
