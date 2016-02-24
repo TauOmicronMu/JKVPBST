@@ -1,6 +1,6 @@
 import java.util.Optional;
 
-public class Fork<K extends Comparable<K>,V> implements Bst {
+public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 
 	private final Entry root;
 	private final Bst left, right;
@@ -303,18 +303,10 @@ public class Fork<K extends Comparable<K>,V> implements Bst {
 	 * @param k The key for the key:value pair.
 	 * @param v The value for the key:value pair.
 	 * 
-	 * PSEUDOCODE : 
-	 * 
-	 * put(value) {
-	 *     IF isEmpty(tree) {
-	 *     }
-	 *     ELSE IF value < root(tree) {
-	 *     }
-	 *     ELSE IF value > root(tree) {
-	 *     {
-	 *     ELSE {
-	 *     }    
-	 *     
+	 * "PSEUDOCODE" : 
+	 *    If k is equal to the value of the root : replace the current node with new Entry<K,V>(k,v)
+	 *    If k is smaller than the value of the root : insert k into the left branch
+	 *    If k is larger than the value of the root : insert k into the right branch 
 	 */
 	@Override
 	public Bst<K,V> put(Comparable k, Object v) {

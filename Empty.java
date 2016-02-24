@@ -60,7 +60,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * pair: k:v.
 	 */
 	@Override
-	public Bst put(Comparable k, Object v) {
+	public Bst<K,V> put(Comparable k, Object v) {
 		return new Fork(new Entry<>(k,v), new Empty(), new Empty());
 	}
 
@@ -185,7 +185,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * the Empty BST is always balanced.
 	 */
 	@Override
-	public Bst balanced() {
+	public Bst<K,V> balanced() {
 		return new Empty();
 	}
 
