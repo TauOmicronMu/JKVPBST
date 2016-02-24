@@ -14,7 +14,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst {
 	 * @param left The left branch for the BST.
 	 * @param right The right branch for the BST.
 	 */
-	public Fork(Entry root, Bst left, Bst right) {
+	public Fork(Entry<K,V> root, Bst<K,V> left, Bst<K,V> right) {
 		
 		assert(left != null && right != null); //Neither of the branches should be null.
 		
@@ -25,7 +25,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst {
 		this.right = right;
 	}
 	
-	public Comparable<?> getRootKey() {
+	public Comparable<K> getRootKey() {
 		return this.root.getKey();
 	}
 	
@@ -302,9 +302,22 @@ public class Fork<K extends Comparable<K>,V> implements Bst {
 	 * @return A copy of this tree with the new key:value pair, k:v, inserted.
 	 * @param k The key for the key:value pair.
 	 * @param v The value for the key:value pair.
+	 * 
+	 * PSEUDOCODE : 
+	 * 
+	 * put(value) {
+	 *     IF isEmpty(tree) {
+	 *     }
+	 *     ELSE IF value < root(tree) {
+	 *     }
+	 *     ELSE IF value > root(tree) {
+	 *     {
+	 *     ELSE {
+	 *     }    
+	 *     
 	 */
 	@Override
-	public Bst put(Comparable k, Object v) {
+	public Bst<K,V> put(Comparable k, Object v) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -409,7 +422,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst {
 	}
 
 	@Override
-	public Bst balanced() {
+	public Bst<K,V> balanced() {
 		// TODO Auto-generated method stub
 		return null;
 	}
