@@ -309,10 +309,22 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 *    If k is larger than the value of the root : insert k into the right branch 
 	 */
 	@Override
-	public Bst<K,V> put(Comparable k, Object v) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Bst put(Comparable k, Object v) {
+		    if(this.left instanceof Empty && this.right instanceof Empty) {
+		    	return new Fork<K,V>(new Entry(k,v), new Empty(), new Empty());
+		    } 
+		    if(k.compareTo(this.getRootKey()) == 0) {
+		    	return new Fork<K,V>(new Entry(k,v), this.left, this.right);
+		    }
+		    else if(k.compareTo(this.getRootKey()) < 0) {
+		        return new Fork<K,V>(this.root, this.left.put(k,v), this.right);
+		    }
+		    else if(k.compareTo(this.getRootKey()) > 0) {
+		        return new Fork<K,V>(this.root, this.left, this.right.put(k,v));
+		    }
+		    //This will never be reached.
+		    return new Fork<K,V>(this.root, this.left, this.right);
+		}
 
 	/**
 	 * Returns a copy of the tree, in which the node k has been deleted,
