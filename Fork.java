@@ -236,8 +236,62 @@ public class Fork<K extends Comparable<K>,V> implements Bst {
 	 */
 	@Override
 	public Optional find(Comparable k) {
-		// TODO Auto-generated method stub
-		return null;
+        if(this.right instanceof Empty) {
+        	if(this.left instanceof Empty) {
+				/* CASE : BOTH BRANCHES ARE EMPTY
+		         * 
+		         * If both branches are empty and we haven't found k, return 
+		         * Optional.empty() because k isn't in the tree.
+		         */
+        		return Optional.empty();
+        	}
+        	/*
+        	 * CASE : THE RIGHT BRANCH IS EMPTY BUT THE LEFT BRANCH IS NOT
+        	 * 
+        	 * If the right branch is empty but the left branch is not, if the 
+        	 * root key is equal to k, return the root node, otherwise return
+        	 * find() on the left branch. 
+        	 */
+        	if(k.compareTo(this.getRootKey()) == 0) {
+        		return Optional.of(this.root);
+        	}
+        	else {
+        		return this.left.find(k);
+        	}
+        }
+        else if(this.left instanceof Empty) {
+        	/* CASE : THE LEFT BRANCH IS EMPTY BUT THE RIGHT BRANCH IS NOT
+        	 * 
+        	 * If the left branch is empty but the right branch is not, if the
+        	 * root key is equal to k, return the root node, otherwise return 
+        	 * find() on the right branch.
+        	 */
+        	if(k.compareTo(this.getRootKey()) == 0) {
+        		return Optional.of(this.root);
+        	}
+        	else {
+        		return this.right.find(k);
+        	}
+        }
+        else {
+        	/* CASE : NEITHER BRANCH IS EMPTY
+        	 * 
+        	 * If neither branch is empty, if the root key is equal to k, return
+        	 * the root node, otherwise return find on both branches.
+        	 */
+        	if(k.compareTo(this.getRootKey()) == 0) {
+        		return Optional.of(this.root);
+        	}
+        	else {
+        		/*
+        		 * Imagine this like : this.right.find(k) && this.left.find(k);
+        		 */
+        		if(this.right.find(k) == Optional.empty()) {
+        		    return this.left.find(k);
+        		}
+        		return this.right.find(k);
+        	}
+        }
 	}
 
 	/**
