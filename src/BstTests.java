@@ -10,6 +10,9 @@
 public class BstTests {
 
   public static void main(String[] args) {
+	/*
+	 * Generic Tests.
+	 */
     Bst<Integer,String> t1 = new Empty<>();
     assert(t1.size() == 0);
     assert(t1.height() == -1);
@@ -44,8 +47,8 @@ public class BstTests {
     System.out.println(t5);
     System.out.println("Test 5 Passed");
     
-    System.out.println("Tests passed");
-    // You should add more tests designed by yourself.
+    System.out.println("All Tests passed");
+    
   }
 
   private static int log2floor(int x) {

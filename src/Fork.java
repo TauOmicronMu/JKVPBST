@@ -495,8 +495,11 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		return this.delete(this.largest().get().getKey());
 	}
 
+	/**
+	 * @return fancyToString()
+	 */
     public String toString() {
-	    return "Fork("  +  root + "," + left.toString()  +  ","  +  right.toString()  +  ")";
+	    return this.fancyToString();
     }
     
     /**
@@ -532,36 +535,63 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
         for (int i = 0; i < n; i++) s = s + " ";
         return s;
     }
-	  
+	 
+    /**
+     * Counts how many values are stored in the tree.
+     * 
+     * @return The number of nodes in the Bst.
+     */
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * Gives the height of this tree. The height of the empty tree is
+	 * -1 by convention.
+	 * 
+	 * @return The height of the Bst.
+	 */
 	@Override
 	public int height() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * Prints the values in key order (left then root then right).
+	 */
 	@Override
 	public void printInOrder() {
 		// TODO Auto-generated method stub	
 	}
 
+	/**
+	 * Save entries in key order in the array a starting at 0, as in an
+     *  in-order traversal (left, then root, then right).
+	 */
 	@Override
 	public void saveInOrder(Entry<K,V>[] a) {
 		// TODO Auto-generated method stub
-		
 	}
 
+	/**
+     * Same as saveInOrder() but starting at position i, and inform the 
+     * caller what the next available position of the array is.
+     * 
+     * @param i the position to start printing from.
+	 */
 	@Override
 	public int saveInOrder(Entry<K,V>[] a, int i) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
+	/**
+	 * Returns a balanced copy of this tree which is a tree with 
+	 * same key-value pairs but with minimal height.
+	 */
 	@Override
 	public Bst<K,V> balanced() {
 		// TODO Auto-generated method stub
