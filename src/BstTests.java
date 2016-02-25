@@ -7,8 +7,6 @@
 // If any assertion fails, there is a bug in our program.
 // If they all succeed, there may still be bugs.
 
-import java.util.*;
-
 public class BstTests {
 
   public static void main(String[] args) {

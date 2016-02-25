@@ -93,17 +93,17 @@ public class MartinFork<E extends Comparable<E>> implements Bst<E> {
   public Bst<E> delete(E e)  {  // Returns a copy of self with e deleted.
     if (e.compareTo(root) == 0)
       if (left.isEmpty())
-	return right;
+	      return right;
       else
-	if (right.isEmpty())
-	  return left;
-	else // Both non-empty.
-	  return new MartinFork<E>(left.largest(), left.deleteLargest(), right);
-    else // We have to delete from one of the subtrees.               
-      if (e.compareTo(root) < 0)
-	return new MartinFork<E>(root, left.delete(e), right); 
-      else
-	return new MartinFork<E>(root, left, right.delete(e));
+		if (right.isEmpty())
+		  return left;
+		else // Both non-empty.
+		  return new MartinFork<E>(left.largest(), left.deleteLargest(), right);
+	else // We have to delete from one of the subtrees.               
+	    if (e.compareTo(root) < 0)
+		    return new MartinFork<E>(root, left.delete(e), right); 
+	    else
+		    return new MartinFork<E>(root, left, right.delete(e));
   }
 
   public String toString() {

@@ -21,7 +21,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * no nodes in an Empty BST.
 	 */
 	@Override
-	public boolean smaller(Comparable k) {
+	public boolean smaller(K k) {
 		return true;
 	}
 
@@ -30,7 +30,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * no nodes in an Empty BST.
 	 */
 	@Override
-	public boolean bigger(Comparable k) {
+	public boolean bigger(K k) {
 		return true;
 	}
 
@@ -39,7 +39,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * BST will never contain the key, k.
 	 */
 	@Override
-	public boolean has(Comparable k) {
+	public boolean has(K k) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -50,7 +50,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * are never nodes in an Empty BST.
 	 */
 	@Override
-	public Optional find(Comparable k) {
+	public Optional<V> find(K k) {
 		return Optional.empty();
 	}
 
@@ -60,8 +60,8 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * pair: k:v.
 	 */
 	@Override
-	public Bst<K,V> put(Comparable k, Object v) {
-		return new Fork<K,V>(new Entry(k,v), new Empty<K,V>(), new Empty<K,V>());
+	public Bst<K,V> put(K k, V v) {
+		return new Fork<K,V>(new Entry<K,V>(k,v), new Empty<K,V>(), new Empty<K,V>());
 	}
 
 	/** 
@@ -70,7 +70,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * never nodes in an Empty BST.
 	 */
 	@Override
-	public Optional delete(Comparable k) {
+	public Optional<Bst<K,V>> delete(K k) {
 		return Optional.empty();
 	}
 
@@ -80,7 +80,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * never nodes in an Empty BST.
 	 */
 	@Override
-	public Optional smallest() {
+	public Optional<Entry<K,V>> smallest() {
 		return Optional.empty();
 	}
 
@@ -90,7 +90,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * never nodes in an Empty BST.
 	 */
 	@Override
-	public Optional deleteSmallest() {
+	public Optional<Bst<K,V>> deleteSmallest() {
 		return Optional.empty();
 	}
 
@@ -100,7 +100,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * never nodes in an Empty BST.
 	 */
 	@Override
-	public Optional largest() {
+	public Optional<Entry<K,V>> largest() {
 		return Optional.empty();
 	}
 
@@ -110,7 +110,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * Optional class.
 	 */
 	@Override
-	public Optional deleteLargest() {
+	public Optional<Bst<K,V>> deleteLargest() {
 		return Optional.empty();
 	}
 	
@@ -167,7 +167,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * TODO : Implement this.
 	 */
 	@Override
-	public void saveInOrder(Entry[] a) {
+	public void saveInOrder(Entry<K,V>[] a) {
 		// TODO Auto-generated method stub
 	}
 
@@ -175,7 +175,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * TODO : Implement this.
 	 */
 	@Override
-	public int saveInOrder(Entry[] a, int i) {
+	public int saveInOrder(Entry<K,V>[] a, int i) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -186,7 +186,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public Bst<K,V> balanced() {
-		return new Empty();
+		return new Empty<K,V>();
 	}
 
 }

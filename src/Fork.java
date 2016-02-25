@@ -2,8 +2,8 @@ import java.util.Optional;
 
 public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 
-	private final Entry root;
-	private final Bst left, right;
+	private final Entry<K,V> root;
+	private final Bst<K,V> left, right;
 	
 	/**
 	 * Creates a new instance of the Fork class,
@@ -25,7 +25,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		this.right = right;
 	}
 	
-	public Comparable<K> getRootKey() {
+	public K getRootKey() {
 		return this.root.getKey();
 	}
 	
@@ -48,7 +48,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * @param k The value that we are checking whether or not all keys are smaller than.
 	 */
 	@Override
-	public boolean smaller(Comparable k) {
+	public boolean smaller(K k) {
 		/* CASE : BOTH BRANCHES ARE EMPTY
 		 * 
 		 * If both branches are empty, we're at the bottom of the BST.
@@ -119,7 +119,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * @param k The value that we are checking whether or not all keys are bigger than.
 	 */
 	@Override
-	public boolean bigger(Comparable k) {
+	public boolean bigger(K k) {
 		/* CASE : BOTH BRANCHES ARE EMPTY
 		 * 
 		 * If both branches are empty, we're at the bottom of the BST.
@@ -190,7 +190,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * @param k The key to search for.
 	 */
 	@Override
-	public boolean has(Comparable k) {
+	public boolean has(K k) {
 		if(this.right instanceof Empty) {
 			if(this.left instanceof Empty) {
 				/* CASE : BOTH BRANCHES ARE EMPTY.
@@ -235,7 +235,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * @param k The key to search for the value of.
 	 */
 	@Override
-	public Optional find(Comparable k) {
+	public Optional<V> find(K k) {
         if(this.right instanceof Empty) {
         	if(this.left instanceof Empty) {
 				/* CASE : BOTH BRANCHES ARE EMPTY
@@ -253,7 +253,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
         	 * find() on the left branch. 
         	 */
         	if(k.compareTo(this.getRootKey()) == 0) {
-        		return Optional.of(this.root);
+        		return Optional.of(this.root.getValue());
         	}
         	else {
         		return this.left.find(k);
@@ -267,7 +267,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
         	 * find() on the right branch.
         	 */
         	if(k.compareTo(this.getRootKey()) == 0) {
-        		return Optional.of(this.root);
+        		return Optional.of(this.root.getValue());
         	}
         	else {
         		return this.right.find(k);
@@ -280,7 +280,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
         	 * the root node, otherwise return find on both branches.
         	 */
         	if(k.compareTo(this.getRootKey()) == 0) {
-        		return Optional.of(this.root);
+        		return Optional.of(this.root.getValue());
         	}
         	else {
         		/*
@@ -304,12 +304,12 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * @param v The value for the key:value pair.
 	 * 
 	 * "PSEUDOCODE" : 
-	 *    If k is equal to the value of the root : replace the current node with new Entry<K,V>(k,v)
-	 *    If k is smaller than the value of the root : insert k into the left branch
-	 *    If k is larger than the value of the root : insert k into the right branch 
+	 *     >> If k is equal to the value of the root : replace the current node with new Entry<K,V>(k,v)
+	 *     >> If k is smaller than the value of the root : insert k into the left branch
+	 *     >> If k is larger than the value of the root : insert k into the right branch 
 	 */
 	@Override
-	public Bst put(Comparable k, Object v) {
+	public Bst<K,V> put(K k, V v) {
 	         /*
 	          * If both branches are empty, make a comparison based on the root node,
 	          * and create a new Fork with the root, another new Fork (with a new 
@@ -321,7 +321,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		    	  * consisting of the new Entry, and two Empty branches.
 		    	  */
 		    	 if(k.compareTo(this.getRootKey()) == 0) {
-		    		 return new Fork<K,V>(new Entry(k,v), new Empty(), new Empty());
+		    		 return new Fork<K,V>(new Entry<K,V>(k,v), new Empty<K,V>(), new Empty<K,V>());
 		    	 }
 		    	 /*
 		    	  * If k is less than the key of the root node, return a new Fork 
@@ -330,14 +330,14 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		    	  * Empty branch.
 		    	  */
 		         else if(k.compareTo(this.getRootKey()) < 0) {
-	            	 return new Fork<K,V>(this.root, new Fork<K,V>(new Entry(k,v), new Empty(), new Empty()), this.right);
+	            	 return new Fork<K,V>(this.root, new Fork<K,V>(new Entry<K,V>(k,v), new Empty<K,V>(), new Empty<K,V>()), this.right);
 	             }
 		    	 /*
 		    	  * If k is greater than the key of the root node, return a new Fork 
 		    	  * consisting of the current root node, an Empty branch and a new fork 
 		    	  * consisting of the new Entry as it's root and two Empty branches, 
 		    	  */	    	 
-	             return new Fork<K,V>(this.root, this.left, new Fork<K,V>(new Entry(k,v), new Empty(), new Empty()));
+	             return new Fork<K,V>(this.root, this.left, new Fork<K,V>(new Entry<K,V>(k,v), new Empty<K,V>(), new Empty<K,V>()));
 	         }
 		     /*
 		      * We aren't at the bottom of the tree, so these cases will require recursive
@@ -348,7 +348,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		      * branches. 
 		      */
 		     else if(k.compareTo(this.getRootKey()) == 0) {
-		    	 return new Fork<K,V>(new Entry(k,v), this.left, this.right);
+		    	 return new Fork<K,V>(new Entry<K,V>(k,v), this.left, this.right);
 		     }
 		     /*
 		      * If k is less than the value of the current key, return a new Fork consisting
@@ -381,9 +381,50 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * @param k The key to delete from the tree.
 	 */
 	@Override
-	public Optional delete(Comparable k) {
-		// TODO Auto-generated method stub
-		return null;
+	public Optional<Bst<K,V>> delete(K k) {
+		/*
+		 * Once we get to the value that we need...
+		 */
+        if(k.compareTo(this.getRootKey()) == 0) {
+        	/*
+        	 * The left branch is empty, so just return the right branch,
+        	 * assuming that it's there.
+        	 */
+        	if(this.left instanceof Empty) {
+        		return Optional.of(this.right);
+        	}
+        	/*
+        	 * The right branch is empty, so just return the left branch,
+        	 * assuming that it's there.
+        	 */
+        	else if(this.right instanceof Empty) {
+        	    return Optional.of(this.left);
+        	}
+        	/*
+        	 * Both branches are non-empty.
+        	 */
+            else {
+        		return Optional.of(new Fork<K,V>(left.largest().get(), this.left.deleteLargest().get(), right));
+            }
+        }
+        /*
+         * Keep traversing the tree until we find the Entry that we want to
+         * delete.
+         */
+        else {
+        	/*
+        	 * If k is less than the key of the current node, we need to delete(k) 
+        	 * from the left branch. 
+        	 */
+            if(k.compareTo(this.getRootKey()) < 0) {
+            	return Optional.of(new Fork<K,V>(root, this.left.delete(k).get(), this.right));
+            }
+            /*
+             * If k is greater than the key of the current node, we need to delete(k)
+             * from the right branch.
+             */
+            return Optional.of(new Fork<K,V>(root, this.left, this.right.delete(k).get()));
+        }
 	}
 
 	/**
@@ -392,9 +433,18 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * @return The Entry with the smallest key, if it exists.
 	 */
 	@Override
-	public Optional smallest() {
-		// TODO Auto-generated method stub
-		return null;
+	public Optional<Entry<K,V>> smallest() {
+		/*
+		 * If the left branch is empty, this is the leftmost node, so return it.
+		 */
+		if(this.left instanceof Empty) {
+			return Optional.of(this.root);
+		}
+		/*
+		 * If the left branch isn't empty, return the result of smallest() on the
+		 * left branch.
+		 */
+		return this.left.smallest();
 	}
 
 	/**
@@ -403,8 +453,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * @return A new tree with the smallest key deleted, or Optional.empty() if it doesn't exist.
 	 */
 	@Override
-	public Optional deleteSmallest() {
-		// TODO Auto-generated method stub
+	public Optional<Bst<K,V>> deleteSmallest() {
 		return null;
 	}
 	
@@ -414,7 +463,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * @return The Entry with the largest key, if it exists.
 	 */
 	@Override
-	public Optional largest() {
+	public Optional<Entry<K,V>> largest() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -425,7 +474,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * @return A new tree with the largest key deleted, or Optional.empty() if it doesn't exist.
 	 */
 	@Override
-	public Optional deleteLargest() {
+	public Optional<Bst<K,V>> deleteLargest() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -486,13 +535,13 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	}
 
 	@Override
-	public void saveInOrder(Entry[] a) {
+	public void saveInOrder(Entry<K,V>[] a) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public int saveInOrder(Entry[] a, int i) {
+	public int saveInOrder(Entry<K,V>[] a, int i) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
