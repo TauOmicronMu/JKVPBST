@@ -310,20 +310,67 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public Bst put(Comparable k, Object v) {
-		    if(this.left instanceof Empty && this.right instanceof Empty) {
-		    	return new Fork<K,V>(new Entry(k,v), new Empty(), new Empty());
-		    } 
-		    if(k.compareTo(this.getRootKey()) == 0) {
-		    	return new Fork<K,V>(new Entry(k,v), this.left, this.right);
-		    }
-		    else if(k.compareTo(this.getRootKey()) < 0) {
-		        return new Fork<K,V>(this.root, this.left.put(k,v), this.right);
-		    }
-		    else if(k.compareTo(this.getRootKey()) > 0) {
-		        return new Fork<K,V>(this.root, this.left, this.right.put(k,v));
-		    }
-		    //This will never be reached.
-		    return new Fork<K,V>(this.root, this.left, this.right);
+	         /*
+	          * If both branches are empty, make a comparison based on the root node,
+	          * and create a new Fork with the root, another new Fork (with a new 
+	          * Entry as it's root) to it's respective side.
+	          */
+		     if(this.left instanceof Empty && this.right instanceof Empty) {
+		    	 /* 
+		    	  * If k is equal to the key of the root node, return a new Fork 
+		    	  * consisting of the new Entry, and two Empty branches.
+		    	  */
+		    	 if(k.compareTo(this.getRootKey()) == 0) {
+		    		 return new Fork<K,V>(new Entry(k,v), new Empty(), new Empty());
+		    	 }
+		    	 /*
+		    	  * If k is less than the key of the root node, return a new Fork 
+		    	  * consisting of the current root node, a new fork consisting of
+		    	  * the new Entry as it's root and two Empty branches, and an 
+		    	  * Empty branch.
+		    	  */
+		         else if(k.compareTo(this.getRootKey()) < 0) {
+	            	 return new Fork<K,V>(this.root, new Fork<K,V>(new Entry(k,v), new Empty(), new Empty()), this.right);
+	             }
+		    	 /*
+		    	  * If k is greater than the key of the root node, return a new Fork 
+		    	  * consisting of the current root node, an Empty branch and a new fork 
+		    	  * consisting of the new Entry as it's root and two Empty branches, 
+		    	  */	    	 
+	             return new Fork<K,V>(this.root, this.left, new Fork<K,V>(new Entry(k,v), new Empty(), new Empty()));
+	         }
+		     /*
+		      * We aren't at the bottom of the tree, so these cases will require recursive
+		      * building of trees.
+		      * 
+		      * If k is equal to the value of the current key, return a new Fork consisting
+		      * of the new Entry as a root, with the current left and right branches as 
+		      * branches. 
+		      */
+		     else if(k.compareTo(this.getRootKey()) == 0) {
+		    	 return new Fork<K,V>(new Entry(k,v), this.left, this.right);
+		     }
+		     /*
+		      * If k is less than the value of the current key, return a new Fork consisting
+		      * of the current root and the result of put() on the left branch, and the current
+		      * right branch as branches.
+		      */
+		     else if(k.compareTo(this.getRootKey()) < 0) {
+		    	 return new Fork<K,V>(this.root, this.left.put(k,v), this.right);
+		     }
+		     /*
+		      * If k is greater than the value of the current key, return a new Fork consisting
+		      * of the current root and the current left branch and the result of put() on the
+		      * right branch as branches.
+		      */
+		     else if(k.compareTo(this.getRootKey()) > 0) {
+		    	 return new Fork<K,V>(this.root, this.left, this.right.put(k,v));
+		     }
+		     /*
+		      * This will never have been reached, but it needs to be here because the method
+		      * needs to always have the return type Bst.
+		      */
+		     return this;
 		}
 
 	/**
@@ -383,18 +430,44 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		return null;
 	}
 
-	@Override
-	public String fancyToString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String fancyToString(int d) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+    public String toString() {
+	    return "Fork("  +  root + "," + left.toString()  +  ","  +  right.toString()  +  ")";
+    }
+    
+    /**
+     * 2-dimensional, rotated tree printing. Not marked. Use for debugging.
+     * 
+     * @return A 2D rotated depiction of the tree.
+     */
+    @Override
+    public String fancyToString() {
+        return "\n\n\n" + fancyToString(0) + "\n\n\n";
+    }
+    
+    /**
+     * Same as fancyToString() but starting at position, d.
+     * 
+     * @return A 2D rotated depiction of the tree, starting at position d.
+     */
+    @Override
+    public String fancyToString(int d) { 
+        int step = 4;  // depth step
+        String l = left.fancyToString(d + step);
+        String r = right.fancyToString(d + step);
+        return r + spaces(d) + this.root + "\n" + l;
+    }
+    
+    /**
+     * Used in fancyToString(int depth).
+     * @param n The number of spaces to create a String from..
+     * @return A String consisting of n spaces.
+     */
+    private String spaces(int n) { // Helper method for the above:
+        String s = "";
+        for (int i = 0; i < n; i++) s = s + " ";
+        return s;
+    }
+	  
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
@@ -409,8 +482,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 
 	@Override
 	public void printInOrder() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
