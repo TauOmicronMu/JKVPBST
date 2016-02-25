@@ -454,7 +454,11 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public Optional<Bst<K,V>> deleteSmallest() {
-		return null;
+		/*
+		 * This one's pretty self-explanatory. Find the node with the smallest key
+		 * value, and delete it.
+		 */
+		return this.delete(this.smallest().get().getKey());
 	}
 	
 	/**
@@ -464,8 +468,17 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public Optional<Entry<K,V>> largest() {
-		// TODO Auto-generated method stub
-		return null;
+		/*
+		 * If the right branch is empty, this is the rightmost node, so return it.
+		 */
+		if(this.right instanceof Empty) {
+			return Optional.of(this.root);
+		}
+		/*
+		 * If the right branch isn't empty, return the result of largest() on the
+		 * right branch.
+		 */
+		return this.right.largest();
 	}
 
 	/**
@@ -475,8 +488,11 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public Optional<Bst<K,V>> deleteLargest() {
-		// TODO Auto-generated method stub
-		return null;
+		/*
+		 * This one's pretty self-explanatory. Find the node with the largest key
+		 * value, and delete it.
+		 */
+		return this.delete(this.largest().get().getKey());
 	}
 
     public String toString() {
