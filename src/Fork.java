@@ -543,36 +543,10 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
      */
 	@Override
 	public int size() {
-		if(this.left instanceof Empty) {
-			if(this.right instanceof Empty) {
-				/*
-				 * If both branches are Empty, then return 1, and stop
-				 * counting down that branch.
-				 */
-				return 1;
-			}
-			else {
-				/*
-				 * If the left branch is Empty but the right branch is not,
-				 * return 1 + the size of the right branch.
-				 */
-				return 1 + this.right.size();
-			}
-		}
 		/*
-		 * If the right branch is Empty but the left branch is not,
-		 * return 1 + the size of the left branch.
+		 * Empty.size() = 0, .: We can just do this ^-^
 		 */
-		else if(this.right instanceof Empty) {
-			return 1 + this.left.size();
-		}
-		/*
-		 * If neither branch is Empty, return 2 + the size of
-		 * both branches.
-		 */
-		else {
-			return 2 + this.left.size() + this.right.size();
-		}
+		return 1 + left.size() + right.size();
 	}
 
 	/**
@@ -583,8 +557,18 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public int height() {
-		// TODO Auto-generated method stub
-		return 0;
+		/*
+		 * Calculate the height of each subtree and return the largest one, 
+		 * plus one. Calculate the height by doing 1 + the height of the
+		 * subtrees.
+		 */
+		int leftHeight = 1 + this.left.height();
+		int rightHeight = 1 + this.right.height();
+		
+		/*
+		 * Return the largest of the two subtrees (See : https://docs.oracle.com/javase/tutorial/java/nutsandbolts/op2.html)
+		 */
+		return (leftHeight > rightHeight) ? leftHeight : rightHeight;
 	}
 
 	/**
