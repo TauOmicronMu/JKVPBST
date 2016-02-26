@@ -40,6 +40,10 @@ public class BstTests {
     System.out.println(t4);
     System.out.println("Test 4 Passed");
 
+    //Test Fork.printInOrder();
+    System.out.ptintln("Testing Fork.printInOrder()");
+    t4.printInOrder();
+    
     Bst<Integer,String> t5 = t3.balanced();
     assert(t5.size() == t3.size());
     assert(t5.height() <= t3.height());

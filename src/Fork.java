@@ -25,6 +25,11 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		this.right = right;
 	}
 	
+	/**
+	 * Returns the key of the root of the current tree.
+	 * 
+	 * @return The key of the root of this tree.
+	 */
 	public K getRootKey() {
 		return this.root.getKey();
 	}
@@ -576,7 +581,21 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public void printInOrder() {
-		// TODO Auto-generated method stub	
+		/*
+		 * Don't print out any Empty branches. Traverse the left branch first.
+		 */
+		if(!(this.left instanceof Empty)) {
+			this.left.printInOrder();
+		}
+		
+		System.out.println(this.root); //Print out the current root.
+		
+		/*
+		 * Don't print out any Empty branches. Traverse the right branch last.
+		 */
+		if(!(this.right instanceof Empty)) {
+			this.right.printInOrder();
+		}
 	}
 
 	/**
@@ -585,19 +604,33 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public void saveInOrder(Entry<K,V>[] a) {
-		// TODO Auto-generated method stub
+        saveInOrder(a, 0); // We have a new array, so just call the auxiliary function starting at index 0.
 	}
 
 	/**
-     * Same as saveInOrder() but starting at position i, and inform the 
+     * Save the tree in the given array, a, starting at position, i, and inform the 
      * caller what the next available position of the array is.
+     * 
+     * Used as an auxiliary method for saveInOrder(Entry<K,V>[] a).
      * 
      * @param i the position to start printing from.
 	 */
 	@Override
 	public int saveInOrder(Entry<K,V>[] a, int i) {
-		// TODO Auto-generated method stub
-		return 0;
+		/*
+		 * Don't save any Empty branches. Traverse the left branch first.
+		 */
+		if(!(this.left instanceof Empty)) {
+			this.left.saveInOrder(a, i);
+		}
+		a[i++] = this.root; // Save the root at index i and increment i by 1 (after saving the Entry).
+		/*
+		 * Don't save any Empty branches. Traverse the right branch first.
+		 */
+		if(!(this.right instanceof Empty)) {
+			this.right.saveInOrder(a, i);
+		}
+		return i; // Return the index of the next empty position.
 	}
 
 	/**
