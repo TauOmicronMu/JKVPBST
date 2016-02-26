@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Optional;
 
 public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
@@ -637,20 +638,69 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * Returns a balanced copy of this tree which is a tree with 
 	 * same key-value pairs but with minimal height.
 	 * 
-	 * "PSEUDOCODE" :
-	 *     >> Save the tree, in order, to an Array.
-	 *     >> Take the middle value (or the lesser of the two middle values) and :
-	 *         >> If both branches are Empty, just return a new Fork with the root node and
-	 *            two Empty branches.
-	 *         >> If one branch is Empty, return a new Fork with the root node, one Empty
-	 *            branch and the result of balanced() on the other branch.
-	 *         >> If neither branch is Empty, return a new Fork with the root node, and the
-	 *            results of left.balanced() and right.balanced() respectively.
+	 * @return A balanced copy of the current tree.
 	 */
 	@Override
 	public Bst<K,V> balanced() {
-		// TODO Auto-generated method stub
-		return null;
+		/*
+		 * Invoke an array of Entries, using the ancient Escardo ritual.
+		 */
+	    @SuppressWarnings("unchecked")
+	    Entry<K,V>[] inOrderTree = (Entry<K,V>[]) Array.newInstance(this.root.getClass(), this.size());
+	    
+	    /*
+	     * Save the tree to an array.
+	     */
+	    this.saveInOrder(inOrderTree);
+	    
+	    /*
+	     * Return the tree. This is done by the auxiliary function Fork.balanceArray.
+	     */
+	    return balanceArray(inOrderTree);
+	    
 	}
 
+    public Bst<K,V> balanceArray(Entry<K,V>[] a) {
+    	
+    	/*
+    	 * If the Array is empty, return Empty.
+    	 */
+    	if(a.length == 0) return new Empty<K,V>();
+    	
+    	/* 
+    	 * If the Array is only one element, return a new Fork consisting
+    	 * of that element and two Empty branches.
+    	 */
+    	if(a.length == 1) return new Fork<K,V>(a[0], new Empty<K,V>(), new Empty<K,V>());
+    	
+    	/*
+	     * Otherwise, take the middle Entry, or the one greater than it. Integer division always
+	     * rounds down, but a.length returns 1 greater than the highest element.
+	     */
+	    Entry<K,V> middle = a[a.length/2];
+	    
+	    /*
+	     * Now take the other two sides of the array, and partition them in to two arrays, 
+	     * leftArray and rightArray respectively.
+	     */
+	    
+	    /*
+	     * First of all, work out the sizes of each array, based on the following rules:
+	     *
+	     * >> If the original array, of length l, is even in size, the leftArray will have
+	     *    length (l/2) and the rightArray will have length (l/2 - 1).
+	     * >> If the original array, of length l, is odd in size, both Arrays will have 
+	     *    length (l/2).
+	     */
+	    
+	    int leftLength = a.length/2; // leftLength is always (l/2).
+	    int rightLength = ((a.length % 2) == 0) ? ((a.length/2) - 1) : (a.length/2);
+	    
+	    @SuppressWarnings("unchecked")
+	    Entry<K,V>[] leftArray = (Entry<K,V>[]) Array.newInstance(this.root.getClass(), leftLength);
+	    @SuppressWarnings("unchecked")
+	    Entry<K,V>[] rightArray = (Entry<K,V>[]) Array.newInstance(this.root.getClass(), rightLength);
+	    
+	    return new Fork<K,V>(middle, balanceArray(leftArray), balanceArray(rightArray));
+    }
 }

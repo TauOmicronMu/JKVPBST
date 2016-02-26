@@ -41,7 +41,7 @@ public class BstTests {
     System.out.println("Test 4 Passed");
 
     //Test Fork.printInOrder();
-    System.out.ptintln("Testing Fork.printInOrder()");
+    System.out.println("Testing Fork.printInOrder()");
     t4.printInOrder();
     
     Bst<Integer,String> t5 = t3.balanced();
