@@ -636,6 +636,16 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	/**
 	 * Returns a balanced copy of this tree which is a tree with 
 	 * same key-value pairs but with minimal height.
+	 * 
+	 * "PSEUDOCODE" :
+	 *     >> Save the tree, in order, to an Array.
+	 *     >> Take the middle value (or the lesser of the two middle values) and :
+	 *         >> If both branches are Empty, just return a new Fork with the root node and
+	 *            two Empty branches.
+	 *         >> If one branch is Empty, return a new Fork with the root node, one Empty
+	 *            branch and the result of balanced() on the other branch.
+	 *         >> If neither branch is Empty, return a new Fork with the root node, and the
+	 *            results of left.balanced() and right.balanced() respectively.
 	 */
 	@Override
 	public Bst<K,V> balanced() {
