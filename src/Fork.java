@@ -543,8 +543,36 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
      */
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(this.left instanceof Empty) {
+			if(this.right instanceof Empty) {
+				/*
+				 * If both branches are Empty, then return 1, and stop
+				 * counting down that branch.
+				 */
+				return 1;
+			}
+			else {
+				/*
+				 * If the left branch is Empty but the right branch is not,
+				 * return 1 + the size of the right branch.
+				 */
+				return 1 + this.right.size();
+			}
+		}
+		/*
+		 * If the right branch is Empty but the left branch is not,
+		 * return 1 + the size of the left branch.
+		 */
+		else if(this.right instanceof Empty) {
+			return 1 + this.left.size();
+		}
+		/*
+		 * If neither branch is Empty, return 2 + the size of
+		 * both branches.
+		 */
+		else {
+			return 2 + this.left.size() + this.right.size();
+		}
 	}
 
 	/**

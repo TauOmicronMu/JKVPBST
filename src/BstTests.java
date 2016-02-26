@@ -47,6 +47,9 @@ public class BstTests {
     System.out.println(t5);
     System.out.println("Test 5 Passed");
     
+    //Test the Fork.size() Algorithm.
+    System.out.println("cake");
+    
     System.out.println("All Tests passed");
     
   }
