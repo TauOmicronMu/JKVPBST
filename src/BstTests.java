@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-
 // Compile with -Xlint for safety.
 // Run with -ea option to enable assertions.
 //

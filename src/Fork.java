@@ -674,7 +674,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
     	
     	/*
 	     * Otherwise, take the middle Entry, or the one greater than it. Integer division always
-	     * rounds down, but a.length returns 1 greater than the highest element.
+	     * rounds down, but a.length returns 1 greater than the index of the highest element.
 	     */
 	    Entry<K,V> middle = a[a.length/2];
 	    
