@@ -40,7 +40,6 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public boolean has(K k) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -159,25 +158,23 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public void printInOrder() {
-		// TODO Auto-generated method stub
 		System.out.println("Empty");
 	}
 	
 	/**
-	 * TODO : Implement this.
+	 * Nothing is added to the array, so just do nothing.
 	 */
 	@Override
 	public void saveInOrder(Entry<K,V>[] a) {
-		// TODO Auto-generated method stub
+	    //Do nothing.
 	}
 
 	/**
-	 * TODO : Implement this.
+	 * Nothing is added to the array, so always return i.
 	 */
 	@Override
 	public int saveInOrder(Entry<K,V>[] a, int i) {
-		// TODO Auto-generated method stub
-		return 0;
+		return i;
 	}
 
 	/**

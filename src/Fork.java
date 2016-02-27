@@ -605,10 +605,11 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public void saveInOrder(Entry<K,V>[] a) {
-        saveInOrder(a, 0); // We have a new array, so just call the auxiliary function starting at index 0.
-		System.out.println("-----Array at end of saveInOrder-----");
-        for(Entry<K,V> e : a) System.out.println(e); //Debug code.
-        System.out.println("-------------------------------------");
+		saveInOrder(a,0); //Call the auxiliary function to do the work for us.
+		
+		System.out.println("");
+        for(Entry<K,V> e : a) System.out.println(e);
+        System.out.println("");
 	}
 
 	/**
@@ -622,22 +623,18 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	@Override
 	public int saveInOrder(Entry<K,V>[] a, int i) {
 		/*
-		 * Don't save any Empty branches. Traverse the left branch first.
-		 */
-		if(!(this.left instanceof Empty)) {
-			this.left.saveInOrder(a, i);
-		}
-		a[i] = this.root; // Save the root at index i and increment i by 1 (after saving the Entry);
-		i++;
-		System.out.println("root: " + this.root);
-		System.out.println("a[i] : " + a[i-1]);
-		/*
-		 * Don't save any Empty branches. Traverse the right branch first.
-		 */
-		if(!(this.right instanceof Empty)) {
-			this.right.saveInOrder(a, i);
-		}
-		return i; // Return the index of the next empty position.
+	     * Traverse the left branch first.
+	     */
+		i = this.left.saveInOrder(a, i);
+	    a[i++] = this.root;
+	    /*
+	     * Traverse the right branch last.
+	     */
+	    i = this.right.saveInOrder(a, i);
+	    /*
+	     * Always return the next available index.
+	     */
+	    return i;
 	}
 
 	/**
@@ -658,9 +655,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	     * Save the tree to an array.
 	     */
 	    this.saveInOrder(inOrderTree);
-	    
-	    for(Entry<K,V> e : inOrderTree) System.out.println(e); //Debugging code.
-	    
+	    	    
 	    /*
 	     * Return the tree. This is done by the auxiliary function Fork.balanceArray.
 	     */
@@ -674,23 +669,18 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
     	 * If the Array is empty, return Empty.
     	 */
     	if(a.length == 0) return new Empty<K,V>();
-    	
-    	System.out.println("Array was not Empty.");
-    	
+       	
     	/* 
     	 * If the Array is only one element, return a new Fork consisting
     	 * of that element and two Empty branches.
     	 */
     	if(a.length == 1) return new Fork<K,V>(a[0], new Empty<K,V>(), new Empty<K,V>());
     	
-    	System.out.println("Array had more than one element.");
-    	
     	/*
 	     * Otherwise, take the middle Entry, or the one greater than it. Integer division always
 	     * rounds down, but a.length returns 1 greater than the highest element.
 	     */
 	    Entry<K,V> middle = a[a.length/2];
-	    System.out.println("Middle : " + middle);
 	    
 	    /*
 	     * Now take the other two sides of the array, and partition them in to two arrays, 
@@ -707,8 +697,9 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	     */
 	    
 	    int leftLength = a.length/2; // leftLength is always (l/2).
+	    System.out.println("leftLength : " + leftLength);
 	    int rightLength = ((a.length % 2) == 0) ? ((a.length/2) - 1) : (a.length/2);
-	    
+	    System.out.println("rightLength : " + rightLength);
 	    
 	    /*
 	     * Now invoke two new generic arrays using the ancient Escardo ritual.
@@ -718,6 +709,20 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	    @SuppressWarnings("unchecked")
 	    Entry<K,V>[] rightArray = (Entry<K,V>[]) Array.newInstance(this.root.getClass(), rightLength);
 	    
+	    /*
+	     * Populate each array with the respective values.
+	     */
+	    for(int i = 0; i < leftLength; i++) {
+	    	leftArray[i] = a[i];
+	    }
+	    for(int i = 0; i < rightLength; i++) {
+	    	rightArray[i] = a[a.length - i - 1];
+	    }
+	    
+	    /*
+	     * Create a balanced tree by making a new Fork consisting of the middle Entry, and the result
+	     * of balanceArray() on leftArray and rightArray.
+	     */
 	    return new Fork<K,V>(middle, balanceArray(leftArray), balanceArray(rightArray));
     }
 }

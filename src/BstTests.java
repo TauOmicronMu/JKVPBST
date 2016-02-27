@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+
 // Compile with -Xlint for safety.
 // Run with -ea option to enable assertions.
 //
@@ -42,30 +44,10 @@ public class BstTests {
 
     //Test Fork.printInOrder();
     System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
     System.out.println("Testing Fork.printInOrder()");
     t4.printInOrder();
     System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    System.out.println("");
-    
+
     System.out.println("-----Testing Fork.balanced()-----");
     Bst<Integer,String> t5 = t3.balanced();
     assert(t5.size() == t3.size());
