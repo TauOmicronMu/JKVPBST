@@ -54,8 +54,24 @@ public class BstTests {
     System.out.println(t5);
     System.out.println("Test 5 Passed");
     
-    System.out.println("All Tests passed");
+    System.out.println("");
+    System.out.println("All Bst Tests passed");
+    System.out.println("");
     
+    //Tests for BstTable
+    
+    BstTable<Integer,String> t6 = new BstTable<Integer,String>();
+    assert(t6.size() == 0);
+    assert(t6.isEmpty() == true);
+    System.out.println(t6);
+    System.out.println("Test 1 Passed");
+    
+    BstTable<Integer,String> t7 = (BstTable<Integer,String>) t6.put(30,"John");
+    assert(t6.isEmpty());
+    assert(t7.size() == 1);
+    assert(t7.containsKey(30));
+    System.out.println(t7);
+    System.out.println("Test 2 Passed");
   }
 
   private static int log2floor(int x) {

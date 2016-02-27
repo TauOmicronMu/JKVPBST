@@ -186,4 +186,24 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 		return new Empty<K,V>();
 	}
 
+	@Override
+	public Optional<K> getKey() {
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<V> getValue() {
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Bst<K, V>> getLeft() {
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Bst<K, V>> getRight() {
+		return Optional.empty();
+	}
+
 }

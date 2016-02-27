@@ -719,4 +719,24 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	     */
 	    return new Fork<K,V>(middle, balanceArray(leftArray), balanceArray(rightArray));
     }
+
+	@Override
+	public Optional<K> getKey() {
+		return Optional.of(this.root.getKey());
+	}
+
+	@Override
+	public Optional<V> getValue() {
+		return Optional.of(this.root.getValue());
+	}
+
+	@Override
+	public Optional<Bst<K, V>> getLeft() {
+		return Optional.of(this.left);
+	}
+
+	@Override
+	public Optional<Bst<K, V>> getRight() {
+		return Optional.of(this.right);
+	}
 }

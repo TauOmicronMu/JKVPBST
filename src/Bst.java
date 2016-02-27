@@ -43,6 +43,10 @@ public interface Bst<Key extends Comparable<Key>,Value> {
   public void                       saveInOrder(Entry<Key,Value> a[]); 
   public int                        saveInOrder(Entry<Key,Value> a[], int i); 
   public Bst<Key,Value>             balanced(); 
+  public Optional<Key>              getKey();
+  public Optional<Value>            getValue();
+  public Optional<Bst<Key,Value>>   getLeft();
+  public Optional<Bst<Key,Value>>   getRight();
 }
 
 // * fancyToString() is not assessed, but mandatory. You will use it
