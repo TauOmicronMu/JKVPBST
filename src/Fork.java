@@ -606,10 +606,6 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	@Override
 	public void saveInOrder(Entry<K,V>[] a) {
 		saveInOrder(a,0); //Call the auxiliary function to do the work for us.
-		
-		System.out.println("");
-        for(Entry<K,V> e : a) System.out.println(e);
-        System.out.println("");
 	}
 
 	/**
@@ -697,9 +693,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	     */
 	    
 	    int leftLength = a.length/2; // leftLength is always (l/2).
-	    System.out.println("leftLength : " + leftLength);
 	    int rightLength = ((a.length % 2) == 0) ? ((a.length/2) - 1) : (a.length/2);
-	    System.out.println("rightLength : " + rightLength);
 	    
 	    /*
 	     * Now invoke two new generic arrays using the ancient Escardo ritual.
