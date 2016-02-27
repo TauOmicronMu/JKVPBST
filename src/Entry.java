@@ -17,12 +17,4 @@ public class Entry<Key extends Comparable<Key>,Value> {
   public Value getValue() {
     return value;
   }
-  
-  /*
-   * I know it said not to modify this class, but it made sense to add a toString 
-   * method to stop myself from repeating myself when writing Fork. 
-   */
-  public String toString() {
-	  return key + " : " + value;
-  }
 }

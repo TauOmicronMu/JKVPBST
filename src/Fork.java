@@ -528,7 +528,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
         int step = 4;  // depth step
         String l = left.fancyToString(d + step);
         String r = right.fancyToString(d + step);
-        return r + spaces(d) + this.root + "\n" + l;
+        return r + spaces(d) + this.root.getKey() + " : " + this.root.getValue() + "\n" + l;
     }
     
     /**
@@ -589,7 +589,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 			this.left.printInOrder();
 		}
 		
-		System.out.println(this.root); //Print out the current root.
+		System.out.println(this.root.getKey() + " : " + this.root.getValue()); //Print out the current root.
 		
 		/*
 		 * Don't print out any Empty branches. Traverse the right branch last.

@@ -121,10 +121,12 @@ public class BstTable<K extends Comparable<K>,V> implements Table<K,V> {
 		Object[] a = new Object[this.size()];
 	    @SuppressWarnings("unchecked")
 	    Entry<K,V>[] entries = (Entry<K,V>[]) a;
+	    
 	    /*
 	     * Save all of the Entries from the table 
 	     */
 	    this.table.saveInOrder(entries); 
+	
 	    /*
 	     * Create a new ArrayList of values to hold the values, and 
 	     * populate it with all of the values.
@@ -148,10 +150,12 @@ public class BstTable<K extends Comparable<K>,V> implements Table<K,V> {
 		Object[] a = new Object[this.size()];
 	    @SuppressWarnings("unchecked")
 	    Entry<K,V>[] entries = (Entry<K,V>[]) a;
+	    
 	    /*
 	     * Save all of the Entries from the table 
 	     */
 	    this.table.saveInOrder(entries); 
+	    
 	    /*
 	     * Create a new ArrayList of keys to hold the values, and 
 	     * populate it with all of the keys.
