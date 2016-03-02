@@ -11,17 +11,18 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	 * ensuring that neither branch is null and
 	 * the new Fork wouldn't violate the BST
 	 * property.
-	 * @param root The root value for the BST.
+	 * @param key The key value for the left of the BST.
+	 * @param value The key value for the right of the BST.
 	 * @param left The left branch for the BST.
 	 * @param right The right branch for the BST.
 	 */
-	public Fork(Entry<K,V> root, Bst<K,V> left, Bst<K,V> right) {
+	public Fork(K key, V value, Bst<K,V> left, Bst<K,V> right) {
 		
 		assert(left != null && right != null); //Neither of the branches should be null.
 		
-		assert(left.smaller(root.getKey()) && right.bigger(root.getKey())); //Don't violate the BST property.
+		assert(left.smaller(key)) && right.bigger(key); //Don't violate the BST property.
 		
-		this.root = root;
+		this.root = new Entry<K,V>(key,value);
 		this.left = left;
 		this.right = right;
 	}
@@ -327,7 +328,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		    	  * consisting of the new Entry, and two Empty branches.
 		    	  */
 		    	 if(k.compareTo(this.getRootKey()) == 0) {
-		    		 return new Fork<K,V>(new Entry<K,V>(k,v), new Empty<K,V>(), new Empty<K,V>());
+		    		 return new Fork<K,V>(k, v, new Empty<K,V>(), new Empty<K,V>());
 		    	 }
 		    	 /*
 		    	  * If k is less than the key of the root node, return a new Fork 
@@ -336,14 +337,14 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		    	  * Empty branch.
 		    	  */
 		         else if(k.compareTo(this.getRootKey()) < 0) {
-	            	 return new Fork<K,V>(this.root, new Fork<K,V>(new Entry<K,V>(k,v), new Empty<K,V>(), new Empty<K,V>()), this.right);
+	            	 return new Fork<K,V>(this.root.getKey(), this.root.getValue(), new Fork<K,V>(k, v, new Empty<K,V>(), new Empty<K,V>()), this.right);
 	             }
 		    	 /*
 		    	  * If k is greater than the key of the root node, return a new Fork 
 		    	  * consisting of the current root node, an Empty branch and a new fork 
 		    	  * consisting of the new Entry as it's root and two Empty branches, 
 		    	  */	    	 
-	             return new Fork<K,V>(this.root, this.left, new Fork<K,V>(new Entry<K,V>(k,v), new Empty<K,V>(), new Empty<K,V>()));
+	             return new Fork<K,V>(this.root.getKey(), this.root.getValue(), this.left, new Fork<K,V>(k, v, new Empty<K,V>(), new Empty<K,V>()));
 	         }
 		     /*
 		      * We aren't at the bottom of the tree, so these cases will require recursive
@@ -354,7 +355,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		      * branches. 
 		      */
 		     else if(k.compareTo(this.getRootKey()) == 0) {
-		    	 return new Fork<K,V>(new Entry<K,V>(k,v), this.left, this.right);
+		    	 return new Fork<K,V>(k, v, this.left, this.right);
 		     }
 		     /*
 		      * If k is less than the value of the current key, return a new Fork consisting
@@ -362,7 +363,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		      * right branch as branches.
 		      */
 		     else if(k.compareTo(this.getRootKey()) < 0) {
-		    	 return new Fork<K,V>(this.root, this.left.put(k,v), this.right);
+		    	 return new Fork<K,V>(this.root.getKey(), this.root.getValue(), this.left.put(k,v), this.right);
 		     }
 		     /*
 		      * If k is greater than the value of the current key, return a new Fork consisting
@@ -370,7 +371,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 		      * right branch as branches.
 		      */
 		     else if(k.compareTo(this.getRootKey()) > 0) {
-		    	 return new Fork<K,V>(this.root, this.left, this.right.put(k,v));
+		    	 return new Fork<K,V>(root.getKey(), root.getValue(), this.left, this.right.put(k,v));
 		     }
 		     /*
 		      * This will never have been reached, but it needs to be here because the method
@@ -410,7 +411,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
         	 * Both branches are non-empty.
         	 */
             else {
-        		return Optional.of(new Fork<K,V>(left.largest().get(), this.left.deleteLargest().get(), right));
+        		return Optional.of(new Fork<K,V>(this.left.largest().get().getKey(), this.left.largest().get().getValue(), this.left.deleteLargest().get(), right));
             }
         }
         /*
@@ -423,13 +424,13 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
         	 * from the left branch. 
         	 */
             if(k.compareTo(this.getRootKey()) < 0) {
-            	return Optional.of(new Fork<K,V>(root, this.left.delete(k).get(), this.right));
+            	return Optional.of(new Fork<K,V>(root.getKey(), root.getValue(), this.left.delete(k).get(), this.right));
             }
             /*
              * If k is greater than the key of the current node, we need to delete(k)
              * from the right branch.
              */
-            return Optional.of(new Fork<K,V>(root, this.left, this.right.delete(k).get()));
+            return Optional.of(new Fork<K,V>(root.getKey(), root.getValue(), this.left, this.right.delete(k).get()));
         }
 	}
 
@@ -670,7 +671,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
     	 * If the Array is only one element, return a new Fork consisting
     	 * of that element and two Empty branches.
     	 */
-    	if(a.length == 1) return new Fork<K,V>(a[0], new Empty<K,V>(), new Empty<K,V>());
+    	if(a.length == 1) return new Fork<K,V>(a[0].getKey(), a[0].getValue(), new Empty<K,V>(), new Empty<K,V>());
     	
     	/*
 	     * Otherwise, take the middle Entry, or the one greater than it. Integer division always
@@ -717,7 +718,7 @@ public class Fork<K extends Comparable<K>,V> implements Bst<K,V> {
 	     * Create a balanced tree by making a new Fork consisting of the middle Entry, and the result
 	     * of balanceArray() on leftArray and rightArray.
 	     */
-	    return new Fork<K,V>(middle, balanceArray(leftArray), balanceArray(rightArray));
+	    return new Fork<K,V>(middle.getKey(), middle.getValue(), balanceArray(leftArray), balanceArray(rightArray));
     }
 
 	@Override

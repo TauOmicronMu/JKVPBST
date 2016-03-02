@@ -60,7 +60,7 @@ public class Empty<K extends Comparable<K>,V> implements Bst<K,V> {
 	 */
 	@Override
 	public Bst<K,V> put(K k, V v) {
-		return new Fork<K,V>(new Entry<K,V>(k,v), new Empty<K,V>(), new Empty<K,V>());
+		return new Fork<K,V>(k, v, new Empty<K,V>(), new Empty<K,V>());
 	}
 
 	/** 
